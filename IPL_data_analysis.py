@@ -27,6 +27,8 @@ obj_bar_plot.barplotseaborn(city_name,total_match_city,'Venue Name','Numbers Of 
 total_team_wise=matches_data['winner'].value_counts().values
 team_name=matches_data['winner'].value_counts().index
 obj_bar_plot.barplotseaborn(team_name,total_team_wise,'IPL Team Name','Numbers Of matches Won','No of IPL Matches Won Team-wise')
+tot_mat_team= matches_data['team1'].append(matches_data['team2'])
+obj_bar_plot.barplotseaborn(tot_mat_team.value_counts().index,tot_mat_team.value_counts().values,'IPL Team Name','Numbers Of matches Played','No of IPL Matches Played Team-wise')
 total_toss_decision=matches_data['toss_decision'].value_counts().values
 toss_type=matches_data['toss_decision'].value_counts().index
 obj_bar_plot.pie_graph(total_toss_decision,toss_type)
