@@ -32,6 +32,10 @@ obj_bar_plot.barplotseaborn(team_name,total_team_wise,'IPL Team Name','Numbers O
 Striker_details=deliveries_data.groupby('batsman').sum().sort_values(by=['batsman_runs'], ascending=False)[:10]
 Striker_run_details=Striker_details['batsman_runs']
 obj_bar_plot.barplotseaborn(Striker_run_details.index,Striker_run_details.values,'Batsmen_Name','Runs Scored','Top 10 Batsmen with most runs')
+deliveries_data_dismissal=deliveries_data['dismissal_kind'].dropna()
+dismissal_Kind=deliveries_data_dismissal[~deliveries_data_dismissal.str.contains('r')].unique().tolist()
+dismissal_bowler_tot=deliveries_data[deliveries_data["dismissal_kind"].isin(dismissal_Kind)]
+obj_bar_plot.barplotseaborn(dismissal_bowler_tot['bowler'].value_counts().index[0:10],dismissal_bowler_tot['bowler'].value_counts().values[0:10],'Bowler_Name','Total Wickets','Top 10 Wicket takers')
 total_toss_decision=matches_data['toss_decision'].value_counts().values
 toss_type=matches_data['toss_decision'].value_counts().index
 obj_bar_plot.pie_graph(total_toss_decision,toss_type)
