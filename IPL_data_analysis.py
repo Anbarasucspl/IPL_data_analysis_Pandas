@@ -24,11 +24,14 @@ obj_bar_plot.barplotseaborn(Year_value,total_match,'Calender Year','Numbers Of m
 total_match_city=matches_data['city'].value_counts().values
 city_name=matches_data['city'].value_counts().index
 obj_bar_plot.barplotseaborn(city_name,total_match_city,'Venue Name','Numbers Of matches','No of IPL Matches Played Venue-wise')
+tot_mat_team= matches_data['team1'].append(matches_data['team2'])
+obj_bar_plot.barplotseaborn(tot_mat_team.value_counts().index,tot_mat_team.value_counts().values,'IPL Team Name','Numbers Of matches Played','No of IPL Matches Played Team-wise')
 total_team_wise=matches_data['winner'].value_counts().values
 team_name=matches_data['winner'].value_counts().index
 obj_bar_plot.barplotseaborn(team_name,total_team_wise,'IPL Team Name','Numbers Of matches Won','No of IPL Matches Won Team-wise')
-tot_mat_team= matches_data['team1'].append(matches_data['team2'])
-obj_bar_plot.barplotseaborn(tot_mat_team.value_counts().index,tot_mat_team.value_counts().values,'IPL Team Name','Numbers Of matches Played','No of IPL Matches Played Team-wise')
+Striker_details=deliveries_data.groupby('batsman').sum().sort_values(by=['batsman_runs'], ascending=False)[:10]
+Striker_run_details=Striker_details['batsman_runs']
+obj_bar_plot.barplotseaborn(Striker_run_details.index,Striker_run_details.values,'Batsmen_Name','Runs Scored','Top 10 Batsmen with most runs')
 total_toss_decision=matches_data['toss_decision'].value_counts().values
 toss_type=matches_data['toss_decision'].value_counts().index
 obj_bar_plot.pie_graph(total_toss_decision,toss_type)
