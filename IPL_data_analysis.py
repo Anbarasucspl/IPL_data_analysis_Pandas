@@ -15,8 +15,8 @@ class graph_plot:
         plt.pie(value1,labels=label_field,startangle=90,autopct='%.1f%%')
         plt.title('TOSS_DECISION : ')
         plt.show()
-matches_data=pd.read_csv('D:\Python\ipl\matches.csv',index_col=['id'])
-deliveries_data=pd.read_csv('D:\Python\ipl\deliveries.csv',index_col=['match_id'])
+matches_data=pd.read_csv('D:\Python\ipl\matches.csv')
+deliveries_data=pd.read_csv('D:\Python\ipl\deliveries.csv')
 
 #No of Matches played across seasons
 total_match=matches_data['season'].value_counts().values
@@ -53,9 +53,20 @@ obj_bar_plot.barplotseaborn(dismissal_bowler_tot['bowler'].value_counts().index[
 most_dismissal_bowler=dismissal_bowler_tot.groupby(['bowler','batsman']).count().sort_values(by='inning',ascending=False)[0:10]
 most_dis=most_dismissal_bowler['inning'].reset_index()
 plt.figure(figsize=(15, 7))
-p1=sns.regplot(data=most_dis, x="bowler", y="inning", fit_reg=False, marker="o", color="skyblue", scatter_kws={'s':400})
+out1=sns.regplot(data=most_dis, x="bowler", y="inning", fit_reg=False, marker="o", color="skyblue", scatter_kws={'s':400})
 for line in range(0,most_dis.shape[0]):
-    p1.text(most_dis.bowler[line], most_dis.inning[line], most_dis.batsman[line], horizontalalignment='left', size='medium', color='black', weight='semibold')
+    out1.text(most_dis.bowler[line], most_dis.inning[line], most_dis.batsman[line], horizontalalignment='left', size='medium', color='black', weight='semibold')
+plt.show()
+
+# top 10 highest innings total
+mergeddata=matches_data.merge(deliveries_data,left_on='id', right_on='match_id', how='left')
+tot_runs_innings=mergeddata.groupby(['id','match_id','season','inning','batting_team']).sum().sort_values(by='total_runs',ascending=False)
+top_highest_runs=tot_runs_innings['total_runs'].reset_index()[:10] 
+plt.figure(figsize=(15, 7))
+out2=sns.regplot(data=top_highest_runs, x='batting_team',y='total_runs', fit_reg=False, marker='o', color='green', scatter_kws={'s':400})
+tot_val3=top_highest_runs.reset_index()
+for high_val in range(0,top_highest_runs.shape[0]):
+    out2.text(top_highest_runs.batting_team[high_val],top_highest_runs.total_runs[high_val],top_highest_runs.total_runs[high_val], horizontalalignment='left', size='medium', color='red', weight='semibold')
 plt.show()
 
 #Toss Decision
