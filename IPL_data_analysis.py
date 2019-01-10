@@ -69,6 +69,20 @@ for high_val in range(0,top_highest_runs.shape[0]):
     out2.text(top_highest_runs.batting_team[high_val],top_highest_runs.total_runs[high_val],top_highest_runs.total_runs[high_val], horizontalalignment='left', size='medium', color='red', weight='semibold')
 plt.show()
 
+# top 10 batsman vs bowler favourite 
+batsman_bowler_comb=deliveries_data.groupby(['batsman','bowler']).sum().sort_values(by=['batsman_runs'], ascending=False)[:10]
+batsman_bowler_fav=batsman_bowler_comb['batsman_runs'].reset_index()
+plt.figure(figsize=(15, 10))
+out3=sns.regplot(data=batsman_bowler_fav, x='bowler',y='batsman_runs', fit_reg=False, marker='o', color='red', scatter_kws={'s':400})
+for fav_val in range(0,batsman_bowler_fav.shape[0]):
+    out3.text(batsman_bowler_fav.bowler[fav_val],batsman_bowler_fav.batsman_runs[fav_val],batsman_bowler_fav.batsman[fav_val], horizontalalignment='left', size='medium', color='brown', weight='semibold')
+plt.show()
+
+#Runs scored in first 10 overs
+merge1=mergeddata[mergeddata['over'] < 7].groupby(['season']).sum().sort_values(by=['season','match_id'])
+out_dat=merge1['total_runs'].reset_index()
+obj_bar_plot.barplotseaborn(out_dat['season'],out_dat['total_runs'],'IPL SEASON','Total Runs','Total runs in first 6 overs')
+
 #Toss Decision
 total_toss_decision=matches_data['toss_decision'].value_counts().values
 toss_type=matches_data['toss_decision'].value_counts().index
