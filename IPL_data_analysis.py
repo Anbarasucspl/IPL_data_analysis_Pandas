@@ -88,7 +88,11 @@ merge2=mergeddata.groupby(['season']).sum().sort_values(by=['season','match_id']
 totl_runs_acrs_season=merge2['total_runs'] 
 merge3=mergeddata.groupby(['season']).count().sort_values(by=['season','match_id'])
 totl_balls_acrs_season= merge3['ball'] 
-obj_bar_plot.barplotseaborn((totl_runs_acrs_season/(totl_balls_acrs_season/6)).reset_index()['season'],(totl_runs_acrs_season/(totl_balls_acrs_season/6)).value_counts().index,'IPL SEASON','Run Rate Per Over','Run Across IPL Seasons')
+Run_rate_across_season=(totl_runs_acrs_season/(totl_balls_acrs_season/6)).reset_index().rename({0:'Run_rate'}, axis='columns')
+Run_rate_across_season.set_index('season').plot(marker='o')
+fig=plt.gcf()
+fig.set_size_inches(15,7)
+plt.show()
 
 #Toss Decision
 total_toss_decision=matches_data['toss_decision'].value_counts().values
